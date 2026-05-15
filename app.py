@@ -29,9 +29,7 @@ def create_task():
 
     # BUG 1: No input validation — title could be None or empty string
     title = data.get("title")
-    if not title:
-        # BUG STILL HERE: we check but don't return an error yet
-        title = "Untitled"  # ← Claude will flag this as wrong
+    title = data.get("title") or ""  # empty string silently accepted
     description = data.get("description", "")
 
     # BUG 2: No check for duplicate titles
