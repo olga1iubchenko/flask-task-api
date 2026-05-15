@@ -36,4 +36,4 @@ jobs:
             Do NOT suggest refactors unless there's a real bug.
 
           # Read-only: Claude reviews but does not push changes
-          claude_args: --allowedTools Read,Grep,Glob
+          claude_args: --model claude-sonnet-4-6 --allowedTools Read,Grep,Glob
