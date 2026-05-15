@@ -16,6 +16,7 @@ jobs:
       contents: write        # so Claude can push commits
       pull-requests: write   # so Claude can post PR comments
       issues: read
+      id-token: write
 
     steps:
       - uses: actions/checkout@v4
