@@ -1,0 +1,38 @@
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    # Skip draft PRs to avoid wasted token spend
+    # (handled below with the if condition)
+
+jobs:
+  review:
+    # Don't review draft PRs
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write   # to post review comments
+      contents: read         # read-only — Claude won't modify code here
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Review this pull request focusing on:
+            1. Input validation — are all required fields checked?
+            2. Proper HTTP status codes (400 for bad input, 404 for not found)
+            3. Any obvious bugs or missing error handling
+            4. Code style: PEP8, type hints, no print() statements
+
+            Be concise. Use bullet points. Flag high-priority issues clearly.
+            Do NOT suggest refactors unless there's a real bug.
+
+          # Read-only: Claude reviews but does not push changes
+          claude_args: --allowedTools Read,Grep,Glob
