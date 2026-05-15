@@ -15,7 +15,7 @@ jobs:
     permissions:
       pull-requests: write   # to post review comments
       contents: read         # read-only — Claude won't modify code here
-      id-token: write        # gives the workflow permission to request an OIDC (OpenID Connect) token from GitHub
+      id-token: write        # gives the workflow permission to request an OIDC (OpenID Connect) token from GitHube
 
     steps:
       - uses: actions/checkout@v4
