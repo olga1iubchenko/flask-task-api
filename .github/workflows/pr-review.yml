@@ -27,6 +27,8 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           prompt: |
             Review the changes in this PR against CLAUDE.md rules.
+            PR NUMBER: ${{ github.event.pull_request.number }}
+            REPO: ${{ github.repository }}
 
             You MUST flag the following as HIGH PRIORITY issues if present:
             1. Any POST or PUT route where title can be an empty string "" without returning HTTP 400
@@ -37,4 +39,4 @@ jobs:
             Be explicit — quote the exact line that violates each rule.
 
           # Read-only: Claude reviews but does not push changes
-          claude_args: --model claude-sonnet-4-6 --allowedTools Read,Grep,Glob
+          claude_args: --model claude-sonnet-4-6 --allowedTools Read,Grep,Glob,Bash
