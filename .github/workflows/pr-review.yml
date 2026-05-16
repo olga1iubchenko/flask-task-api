@@ -25,7 +25,6 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          show_full_output: true
           prompt: |
             Review the changes in this PR against CLAUDE.md rules.
             PR NUMBER: ${{ github.event.pull_request.number }}
@@ -38,6 +37,9 @@ jobs:
 
             Do NOT say checks passed if any of the above are present in the diff.
             Be explicit — quote the exact line that violates each rule.
+            
+            After completing your review, post your findings as a comment on PR #${{ github.event.pull_request.number }} using the gh CLI:
+            gh pr comment ${{ github.event.pull_request.number }} --body "your review here"
 
           # Read-only: Claude reviews but does not push changes
           claude_args: --model claude-sonnet-4-6 --allowedTools Read,Grep,Glob,Bash
