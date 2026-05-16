@@ -25,6 +25,7 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          show_full_output: true
           prompt: |
             Review the changes in this PR against CLAUDE.md rules.
             PR NUMBER: ${{ github.event.pull_request.number }}
