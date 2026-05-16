@@ -26,14 +26,15 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           prompt: |
-            Review this pull request focusing on:
-            1. Input validation — are all required fields checked?
-            2. Proper HTTP status codes (400 for bad input, 404 for not found)
-            3. Any obvious bugs or missing error handling
-            4. Code style: PEP8, type hints, no print() statements
+            Review the changes in this PR against CLAUDE.md rules.
 
-            Be concise. Use bullet points. Flag high-priority issues clearly.
-            Do NOT suggest refactors unless there's a real bug.
+            You MUST flag the following as HIGH PRIORITY issues if present:
+            1. Any POST or PUT route where title can be an empty string "" without returning HTTP 400
+            2. Any route that calls request.get_json() without checking if the result is None
+            3. Any missing HTTP 400 response for invalid or missing required fields
+
+            Do NOT say checks passed if any of the above are present in the diff.
+            Be explicit — quote the exact line that violates each rule.
 
           # Read-only: Claude reviews but does not push changes
           claude_args: --model claude-sonnet-4-6 --allowedTools Read,Grep,Glob
