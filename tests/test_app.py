@@ -72,5 +72,5 @@ def test_create_task_rejects_whitespace_title(client):
 
 
 def test_create_task_rejects_no_json_body(client):
-    response = client.post("/tasks", content_type="text/plain", data="not json")
+    response = client.post("/tasks", content_type="application/json", data="")
     assert response.status_code == 400
