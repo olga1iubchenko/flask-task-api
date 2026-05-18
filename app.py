@@ -27,11 +27,11 @@ def create_task():
     """Create a new task."""
     data = request.get_json()
 
-    # BUG 1: No input validation — title could be None or empty string
-    title = data.get("title")
+    # BUG 1: empty string silently accepted, no 400 returned
+    title = data.get("title", "")
     description = data.get("description", "")
 
-    # BUG 2: No check for duplicate titles
+    # BUG 2: no check if data is None (crashes if no JSON body sent)
     task = Task(title=title, description=description)
     db.session.add(task)
     db.session.commit()
