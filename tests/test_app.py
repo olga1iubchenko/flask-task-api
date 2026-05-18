@@ -56,7 +56,21 @@ def test_delete_task(client):
     assert get_response.status_code == 404
 
 
-# This test will FAIL — intentional for demo (BUG 1: no validation)
 def test_create_task_requires_title(client):
     response = client.post("/tasks", json={"description": "No title here"})
     assert response.status_code == 400, "Should reject task with no title"
+
+
+def test_create_task_rejects_empty_title(client):
+    response = client.post("/tasks", json={"title": "", "description": "Empty title"})
+    assert response.status_code == 400
+
+
+def test_create_task_rejects_whitespace_title(client):
+    response = client.post("/tasks", json={"title": "   "})
+    assert response.status_code == 400
+
+
+def test_create_task_rejects_no_json_body(client):
+    response = client.post("/tasks", content_type="text/plain", data="not json")
+    assert response.status_code == 400

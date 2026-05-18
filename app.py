@@ -23,16 +23,18 @@ def get_tasks():
 
 
 @app.route("/tasks", methods=["POST"])
-def create_task():
+def create_task() -> tuple:
     """Create a new task."""
     data = request.get_json()
+    if not data:
+        return jsonify({"error": "Request body must be JSON"}), 400
 
-    # BUG 1: empty string silently accepted, no 400 returned
     title = data.get("title", "")
-    description = data.get("description", "")
+    if not title or not title.strip():
+        return jsonify({"error": "title is required"}), 400
 
-    # BUG 2: no check if data is None (crashes if no JSON body sent)
-    task = Task(title=title, description=description)
+    description = data.get("description", "")
+    task = Task(title=title.strip(), description=description)
     db.session.add(task)
     db.session.commit()
 
